@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gamma</title>
+  <script>
+    (function () {
+      var h = location.hostname;
+      if (h === "gamma.menhir-holdings.com") return;
+      if (/\.vercel\.app$/.test(h)) {
+        location.replace("https://gamma.menhir-holdings.com" + location.pathname + location.search + location.hash);
+      }
+    })();
+  </script>
   <style>
     :root {
       --bg: #111;
