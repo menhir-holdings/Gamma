@@ -3,69 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
   <title>Gamma</title>
-  <script>
-    (function () {
-      var h = location.hostname;
-      if (h === "gamma.menhir-holdings.com") return;
-      if (/\.vercel\.app$/.test(h)) {
-        location.replace("https://gamma.menhir-holdings.com" + location.pathname + location.search + location.hash);
-      }
-    })();
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #111;
-      --text: #eee;
-      --muted: #666;
-      --border: #333;
-      --active: #2a2a2a;
-      --pad: max(0.75rem, env(safe-area-inset-top, 0px))
-              max(0.75rem, env(safe-area-inset-right, 0px))
-              max(0.75rem, env(safe-area-inset-bottom, 0px))
-              max(0.75rem, env(safe-area-inset-left, 0px));
-      --ring: min(240px, 68vw, 36dvh);
-      --app-gap: 0.75rem;
+      --bg: #ffffff;
+      --plaster: #ffffff;
+      --ink: #141414;
+      --muted: #5a5754;
+      --rule: #e4e4e4;
+      --cadmium: #e63e11;
+      --rail: 20.5rem;
+      --gutter: 0.65rem;
+      --font-display: "Newsreader", "Iowan Old Style", "Times New Roman", serif;
+      --font-ui: "Figtree", "Helvetica Neue", sans-serif;
+      --font-mono: "Red Hat Mono", ui-monospace, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
+    html, body {
       height: 100%;
+      height: 100dvh;
+      overflow: hidden;
     }
 
     body {
-      font-family: system-ui, sans-serif;
+      font-family: var(--font-ui);
       background: var(--bg);
-      color: var(--text);
-      min-height: 100%;
-      min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--pad);
-      overflow-x: hidden;
-      overflow-y: auto;
+      color: var(--ink);
       -webkit-tap-highlight-color: transparent;
     }
 
     body.dragging { user-select: none; cursor: grabbing; }
 
+    button, input { font: inherit; color: inherit; }
+
     .app {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--rail);
+      grid-template-areas: "stage rail";
+      width: 100%;
+      height: 100dvh;
+      min-height: 0;
+    }
+
+    .stage {
+      grid-area: stage;
+      min-width: 0;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: var(--app-gap);
-      width: min(440px, 100%);
-      max-height: calc(100dvh - 1.5rem);
+      background: var(--plaster);
+      padding:
+        max(var(--gutter), env(safe-area-inset-top, 0px))
+        var(--gutter)
+        max(var(--gutter), env(safe-area-inset-bottom, 0px))
+        max(var(--gutter), env(safe-area-inset-left, 0px));
+    }
+
+    .wall {
+      flex: 1 1 auto;
       min-height: 0;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(var(--swatch-count, 2), minmax(0, 1fr));
+      gap: var(--gutter);
+      width: 100%;
+      height: 100%;
+    }
+
+    .swatch {
+      min-width: 0;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: 0.15rem;
+      text-align: left;
+      background: none;
+    }
+
+    .swatch:focus-visible,
+    .pattern-btn:focus-visible {
+      outline: 2px solid var(--cadmium);
+      outline-offset: 3px;
+    }
+
+    .swatch.copied {
+      box-shadow: inset 0 0 0 3px var(--cadmium);
+    }
+
+    .swatch-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 1.6vw, 1.55rem);
+      font-weight: 500;
+      font-variation-settings: "opsz" 48;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .hex {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.88;
+      white-space: nowrap;
+    }
+
+    .hex.copied { opacity: 1; }
+
+    .rail {
+      grid-area: rail;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: var(--bg);
+      border-left: 1px solid var(--rule);
+      padding:
+        max(1.1rem, env(safe-area-inset-top, 0px))
+        max(1.2rem, env(safe-area-inset-right, 0px))
+        max(1.1rem, env(safe-area-inset-bottom, 0px))
+        1.2rem;
+      overflow: hidden;
+    }
+
+    .rail-mast {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.65rem;
+      font-variation-settings: "opsz" 36;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .pigment {
+      width: 0.48em;
+      height: 0.48em;
+      background: var(--cadmium);
+      flex-shrink: 0;
+    }
+
+    .readout {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+    }
+
+    .scheme-label {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.35rem;
+      font-variation-settings: "opsz" 28;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      flex-shrink: 0;
     }
 
     .ring-wrap {
       position: relative;
-      width: var(--ring);
-      height: var(--ring);
+      width: min(100%, 10.25rem);
+      aspect-ratio: 1;
       flex-shrink: 0;
+      align-self: center;
+      container-type: size;
     }
 
     .ring-wrap.dragging #ring { cursor: grabbing; }
@@ -85,312 +211,183 @@
       height: clamp(14px, 5.5cqi, 18px);
       border: 2px solid #fff;
       border-radius: 50%;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+      box-shadow: 0 0 0 1.5px var(--ink);
       pointer-events: none;
       transform: translate(-50%, -50%);
     }
 
-    .ring-wrap {
-      container-type: size;
-    }
-
-    .panel {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      min-height: 0;
-      flex: 1 1 auto;
-      overflow: hidden;
-    }
-
-    .pattern-toggle {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.28rem;
-      width: 100%;
-      flex-shrink: 0;
-    }
-
-    .pattern-btn {
-      min-width: 0;
-      padding: 0.38rem 0.4rem;
-      font-size: clamp(0.58rem, 2.6vw, 0.68rem);
-      line-height: 1.15;
-      text-align: center;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.15s, border-color 0.15s, background 0.15s;
-    }
-
-    .pattern-btn:hover { color: var(--text); border-color: #555; }
-    .pattern-btn.active { color: var(--text); border-color: #888; background: var(--active); }
-
     .sliders {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.65rem;
       flex-shrink: 0;
     }
 
-    .slider-row { display: flex; flex-direction: column; gap: 0.18rem; }
+    .slider-row { display: flex; flex-direction: column; gap: 0.22rem; }
     .slider-row label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.72rem;
+      font-size: 0.78rem;
+      font-weight: 600;
       color: var(--muted);
     }
     .slider-row label span:last-child {
+      font-family: var(--font-mono);
+      font-weight: 400;
       font-variant-numeric: tabular-nums;
-      color: var(--text);
-    }
-    input[type="range"] {
-      width: 100%;
-      accent-color: #888;
-      height: 1.25rem;
+      color: var(--ink);
     }
 
-    .output {
+    input[type="range"] {
       width: 100%;
+      height: 1.25rem;
+      margin: 0;
+      accent-color: var(--cadmium);
+      cursor: pointer;
+    }
+
+    .pattern-toggle {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      align-items: stretch;
+      gap: 0;
       min-height: 0;
       flex: 1 1 auto;
       overflow-y: auto;
       overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
-      padding-right: 0.15rem;
+      scrollbar-width: thin;
     }
 
-    .hex-row {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.08rem 0;
-    }
-
-    .chip {
-      width: clamp(20px, 5vw, 24px);
-      height: clamp(20px, 5vw, 24px);
-      border-radius: 5px;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .hex-copy {
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-      min-width: 0;
-    }
-
-    .hex {
-      font-family: ui-monospace, monospace;
-      font-size: clamp(0.72rem, 2.8vw, 0.8rem);
-      color: var(--muted);
-      line-height: 1;
-    }
-
-    .copy-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      padding: 0;
-      border: none;
-      border-radius: 4px;
+    .pattern-btn {
+      width: 100%;
+      padding: 0.22rem 0;
+      font-size: 0.86rem;
+      font-weight: 500;
+      line-height: 1.25;
+      text-align: left;
       background: transparent;
+      border: none;
+      border-bottom: 1px solid transparent;
       color: var(--muted);
       cursor: pointer;
-      flex-shrink: 0;
-      transition: color 0.15s, background 0.15s;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .copy-btn:hover { color: var(--text); background: var(--active); }
-    .copy-btn svg { width: 13px; height: 13px; }
-    .copy-btn.copied { color: #8c8; }
-
-    /* Short phones / folded windows: shrink chrome, keep ring usable */
-    @media (max-height: 640px) {
-      :root {
-        --ring: min(180px, 48vw, 30dvh);
-        --app-gap: 0.5rem;
-      }
-
-      .panel { gap: 0.45rem; }
-      .pattern-btn { padding: 0.28rem 0.3rem; font-size: 0.58rem; }
-      .sliders { gap: 0.35rem; }
-      .slider-row label { font-size: 0.68rem; }
+    .pattern-btn:hover { color: var(--ink); }
+    .pattern-btn.active {
+      color: var(--ink);
+      border-bottom-color: var(--cadmium);
     }
 
-    /* Landscape phone / short wide windows: ring beside controls */
-    @media (max-width: 900px) and (max-height: 520px),
-           (orientation: landscape) and (max-height: 520px) {
-      :root {
-        --ring: min(200px, 38vh, 36vw);
-        --app-gap: 0.55rem;
-        --pad: max(0.5rem, env(safe-area-inset-top, 0px))
-               max(0.75rem, env(safe-area-inset-right, 0px))
-               max(0.5rem, env(safe-area-inset-bottom, 0px))
-               max(0.75rem, env(safe-area-inset-left, 0px));
-      }
+    @media (max-width: 840px) {
+      :root { --rail: 18.5rem; --gutter: 0.55rem; }
+      .wordmark { font-size: 1.45rem; }
+      .scheme-label { font-size: 1.2rem; }
+      .swatch { padding: 0.7rem 0.8rem 0.8rem; }
+      .swatch-name { font-size: 1.05rem; }
+    }
 
-      body {
-        align-items: stretch;
-      }
+    @media (max-width: 720px) {
+      :root { --gutter: 0.45rem; }
 
       .app {
-        display: grid;
-        grid-template-columns: var(--ring) minmax(0, 1fr);
-        grid-template-rows: minmax(0, 1fr);
-        gap: 0.65rem 1rem;
-        width: min(720px, 100%);
-        max-height: calc(100dvh - 1rem);
-        height: calc(100dvh - 1rem);
-        align-items: center;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+        grid-template-areas:
+          "stage"
+          "rail";
       }
 
-      .ring-wrap {
-        align-self: center;
+      .wall {
+        grid-template-columns: repeat(auto-fit, minmax(6.75rem, 1fr));
       }
 
-      .panel {
-        height: 100%;
-        max-height: 100%;
-        gap: 0.4rem;
-      }
-
-      .pattern-toggle {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.22rem;
-      }
-
-      .pattern-btn {
-        padding: 0.22rem 0.2rem;
-        font-size: 0.55rem;
-      }
-
-      .sliders {
-        flex-direction: row;
-        gap: 0.65rem;
-      }
-
-      .slider-row { flex: 1; min-width: 0; }
-
-      .output {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
-        gap: 0.15rem 0.5rem;
-      }
-    }
-
-    /* Tablet / laptop and up */
-    @media (min-width: 720px) and (min-height: 521px) {
-      :root {
-        --ring: min(260px, 28vw, 42dvh);
-        --app-gap: 0.65rem;
-        --pad: 0.85rem 1.25rem;
-      }
-
-      .app {
-        display: grid;
-        grid-template-columns: var(--ring) minmax(0, 1fr);
-        grid-template-rows: minmax(0, 1fr);
-        gap: 0.75rem 1.35rem;
-        width: min(720px, 100%);
-        max-height: calc(100dvh - 1.7rem);
-        align-items: center;
-      }
-
-      .ring-wrap {
-        align-self: center;
-      }
-
-      .panel {
+      .rail {
+        border-left: none;
+        border-top: 1px solid var(--rule);
+        max-height: 42dvh;
+        overflow-y: auto;
         gap: 0.55rem;
-        height: 100%;
-        max-height: min(100%, calc(var(--ring) + 4rem));
+        padding:
+          0.7rem
+          max(0.85rem, env(safe-area-inset-right, 0px))
+          max(0.75rem, env(safe-area-inset-bottom, 0px))
+          max(0.85rem, env(safe-area-inset-left, 0px));
       }
 
-      .pattern-toggle {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.25rem;
-      }
-
-      .pattern-btn {
-        font-size: 0.62rem;
-        padding: 0.32rem 0.3rem;
+      .ring-wrap {
+        width: min(100%, 6.75rem);
       }
 
       .sliders {
         flex-direction: row;
-        gap: 0.85rem;
+        gap: 0.75rem;
       }
 
       .slider-row { flex: 1; min-width: 0; }
 
-      .output {
-        gap: 0.12rem;
+      .pattern-toggle {
+        flex: 0 0 auto;
+        max-height: 7.5rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.15rem 0.85rem;
+        overflow-y: auto;
       }
-
-      .hex-row { gap: 0.45rem; }
-      .copy-btn { width: 24px; height: 24px; }
-    }
-
-    /* Comfortable desktop / large laptop */
-    @media (min-width: 980px) and (min-height: 700px) {
-      :root {
-        --ring: min(300px, 26vw, 44dvh);
-        --pad: 1.25rem 1.75rem;
-      }
-
-      .app {
-        width: min(780px, 100%);
-        gap: 1rem 1.75rem;
-      }
-
-      .panel { gap: 0.7rem; }
 
       .pattern-btn {
-        font-size: 0.68rem;
-        padding: 0.4rem 0.35rem;
-      }
-
-      .output {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 1rem;
-        row-gap: 0.15rem;
+        width: auto;
+        padding: 0.2rem 0;
       }
     }
 
-    /* Very short laptop windows while wide */
-    @media (min-width: 720px) and (max-height: 640px) {
-      :root {
-        --ring: min(200px, 24vw, 48dvh);
-        --app-gap: 0.45rem;
+    @media (max-width: 720px) and (max-height: 520px),
+           (orientation: landscape) and (max-height: 520px) {
+      .app {
+        grid-template-columns: minmax(0, 1fr) minmax(16rem, 40vw);
+        grid-template-rows: 100dvh;
+        grid-template-areas: "stage rail";
       }
 
-      .panel { gap: 0.4rem; max-height: none; }
-      .pattern-btn { padding: 0.24rem 0.25rem; font-size: 0.55rem; }
-      .sliders { gap: 0.55rem; }
+      .rail {
+        border-left: 1px solid var(--rule);
+        border-top: none;
+        max-height: none;
+        overflow: hidden;
+      }
+
+      .pattern-toggle {
+        flex: 1 1 auto;
+        max-height: none;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0.05rem;
+      }
+
+      .pattern-btn { width: 100%; }
+
+      .ring-wrap { width: min(100%, 8.5rem); }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="ring-wrap" id="ringWrap">
-      <canvas id="ring" width="560" height="560"></canvas>
-      <div class="thumb" id="thumb"></div>
-    </div>
+    <section class="stage" aria-label="Palette">
+      <div class="wall" id="output"></div>
+    </section>
 
-    <div class="panel">
-      <div class="pattern-toggle" id="patternToggle"></div>
+    <aside class="rail">
+      <header class="rail-mast">
+        <div class="wordmark"><span class="pigment" aria-hidden="true"></span>Gamma</div>
+        <div class="readout" id="hueVal">0.0°</div>
+      </header>
+
+      <div class="scheme-label" id="schemeLabel"></div>
+
+      <div class="ring-wrap" id="ringWrap">
+        <canvas id="ring" width="560" height="560"></canvas>
+        <div class="thumb" id="thumb"></div>
+      </div>
 
       <div class="sliders">
         <div class="slider-row">
@@ -403,12 +400,25 @@
         </div>
       </div>
 
-      <div class="output" id="output"></div>
-    </div>
+      <div class="pattern-toggle" id="patternToggle"></div>
+    </aside>
   </div>
   <script>
-    const COPY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
     const COF_SEMITONES = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
+    const INTERVALS = {
+      0: "Root",
+      1: "Minor 2nd",
+      2: "Major 2nd",
+      3: "Minor 3rd",
+      4: "Major 3rd",
+      5: "Fourth",
+      6: "Tritone",
+      7: "Fifth",
+      8: "Minor 6th",
+      9: "Major 6th",
+      10: "Minor 7th",
+      11: "Major 7th",
+    };
     const PATTERNS = [
       { name: "Power Fifth", semitones: [0, 7] },
       { name: "Major Triad", semitones: [0, 4, 7] },
@@ -466,7 +476,8 @@
       const cofIndices = [...new Set(semitones.map(semitoneToCofIndex))].sort((a, b) => a - b);
       return cofIndices.map((k) => {
         const hue = cofIndexToHue(k, state.baseHue);
-        return { hue, hex: hslToHex(hue, state.saturation, state.lightness) };
+        const hex = hslToHex(hue, state.saturation, state.lightness);
+        return { hue, hex, name: INTERVALS[COF_SEMITONES[k]] };
       });
     }
 
@@ -484,6 +495,19 @@
       else [r, g, b] = [c, 0, x];
       const hex = (v) => Math.round((v + m) * 255).toString(16).padStart(2, "0");
       return `#${hex(r)}${hex(g)}${hex(b)}`;
+    }
+
+    function hexLuma(hex) {
+      const n = parseInt(hex.slice(1), 16);
+      const r = ((n >> 16) & 255) / 255;
+      const g = ((n >> 8) & 255) / 255;
+      const b = (n & 255) / 255;
+      const lin = (v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    }
+
+    function captionInk(hex) {
+      return hexLuma(hex) > 0.45 ? "#141414" : "#f7f7f7";
     }
 
     function drawRing() {
@@ -508,8 +532,11 @@
         ctx.arc(mx, my, 7, 0, Math.PI * 2);
         ctx.fillStyle = hslToHex(hue, state.saturation, state.lightness);
         ctx.fill();
+        ctx.strokeStyle = "#141414";
+        ctx.lineWidth = 3;
+        ctx.stroke();
         ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.5;
         ctx.stroke();
       }
     }
@@ -538,23 +565,41 @@
       });
     }
 
-    function renderOutput() {
-      document.getElementById("output").innerHTML = getPalette().map((c) =>
-        `<div class="hex-row">
-          <div class="chip" style="background:${c.hex}"></div>
-          <div class="hex-copy">
-            <span class="hex">${c.hex}</span>
-            <button type="button" class="copy-btn" data-hex="${c.hex}" aria-label="Copy ${c.hex}">${COPY_ICON}</button>
-          </div>
-        </div>`
-      ).join("");
-      document.getElementById("output").querySelectorAll(".copy-btn").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          await navigator.clipboard.writeText(btn.dataset.hex);
-          btn.classList.add("copied");
-          setTimeout(() => btn.classList.remove("copied"), 1200);
+    function bindCopy(root) {
+      root.querySelectorAll(".swatch").forEach((el) => {
+        el.addEventListener("click", async () => {
+          await navigator.clipboard.writeText(el.dataset.hex);
+          el.classList.add("copied");
+          const hexSpan = el.querySelector(".hex");
+          const prev = hexSpan ? hexSpan.textContent : "";
+          if (hexSpan) {
+            hexSpan.textContent = "copied";
+            hexSpan.classList.add("copied");
+          }
+          setTimeout(() => {
+            el.classList.remove("copied");
+            if (hexSpan) {
+              hexSpan.textContent = prev;
+              hexSpan.classList.remove("copied");
+            }
+          }, 1200);
         });
       });
+    }
+
+    function renderOutput() {
+      const name = PATTERNS[state.pattern].name;
+      const colors = getPalette();
+      document.getElementById("schemeLabel").textContent = name;
+      const output = document.getElementById("output");
+      output.style.setProperty("--swatch-count", String(colors.length));
+      output.innerHTML = colors.map((c) =>
+        `<button type="button" class="swatch" data-hex="${c.hex}" aria-label="Copy ${c.name} ${c.hex}" style="background:${c.hex};color:${captionInk(c.hex)}">
+            <span class="swatch-name">${c.name}</span>
+            <span class="hex">${c.hex}</span>
+          </button>`
+      ).join("");
+      bindCopy(output);
     }
 
     function render() {
@@ -563,6 +608,7 @@
       renderOutput();
       document.getElementById("satVal").textContent = fmtVal(state.saturation);
       document.getElementById("lightVal").textContent = fmtVal(state.lightness);
+      document.getElementById("hueVal").textContent = `${fmtVal(state.baseHue)}°`;
       saveState();
     }
 
