@@ -14,6 +14,8 @@
 ## In review
 
 - [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium chrome (Big Shoulders + Azeret Mono). No `*.vercel.app` bounce; `gammacolor.vercel.app` host redirect removed so previews stay on the preview host.
+  - PR: https://github.com/menhir-holdings/Gamma/pull/3
+  - Preview: https://gamma-git-ledoit-mt-207-gamma-palette-ch-919282-menhir-holdings.vercel.app
 
 ## Note on Linear backlog
 

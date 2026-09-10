@@ -4,7 +4,7 @@ Linear: [Gamma project](https://linear.app/menhir-holdings/project/gamma-a17d2ca
 
 ## In review
 
-- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium palette chrome
+- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium palette chrome — [PR #3](https://github.com/menhir-holdings/Gamma/pull/3)
 
 ## Done (palette product)
 
