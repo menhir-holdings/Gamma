@@ -14,6 +14,8 @@
 ## In review
 
 - [MT-215](https://linear.app/menhir-holdings/issue/MT-215) — Full-bleed gallery wall + Newsreader/Figtree type. Named color rectangles occupy the viewport; hue ring and patterns sit in a thin rail. Branched from [MT-207](https://linear.app/menhir-holdings/issue/MT-207) so the swatch rectangles stay. No `*.vercel.app` bounce.
+  - PR: https://github.com/menhir-holdings/Gamma/pull/4
+  - Preview: https://gamma-7hucm4dxf-menhir-holdings.vercel.app
 
 ## Note on Linear backlog
 
