@@ -1,11 +1,3 @@
 {
-  "name": "gamma",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "gammacolor.vercel.app" }],
-      "destination": "https://gamma.menhir-holdings.com/:path*",
-      "permanent": true
-    }
-  ]
+  "name": "gamma"
 }

@@ -1,14 +1,19 @@
 # Gamma — Status
 
-**As of:** 2026-07-22  
-**SoT:** [Linear — Gamma](https://linear.app/menhir-holdings/project/gamma-a17d2ca6-89f4-4b8b-af3b-9b132b05c3db)
+**As of:** 2026-09-10  
+**SoT:** [Linear — Gamma](https://linear.app/menhir-holdings/project/gamma-a17d2ca6-89f4-4b8b-af3b-9b132b05c3db)  
+**Checkout:** `Menhir Holdings/Color/Gamma`
 
 ## Shipped
 
-- Harmonic palette generator (14 patterns, cof-of-fifths ring, hex copy)
+- Harmonic palette generator (14 patterns, circle-of-fifths ring, hex copy)
 - Cold load always renders defaults — never a blank page
 - `localStorage` restores last palette settings on return ([MT-26](https://linear.app/menhir-holdings/issue/MT-26))
 - Live at [gamma.menhir-holdings.com](https://gamma.menhir-holdings.com)
+
+## In review
+
+- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium chrome (Big Shoulders + Azeret Mono). No `*.vercel.app` bounce; `gammacolor.vercel.app` host redirect removed so previews stay on the preview host.
 
 ## Note on Linear backlog
 
