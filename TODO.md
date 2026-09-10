@@ -4,7 +4,8 @@ Linear: [Gamma project](https://linear.app/menhir-holdings/project/gamma-a17d2ca
 
 ## In review
 
-- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium palette chrome — [PR #3](https://github.com/menhir-holdings/Gamma/pull/3)
+- [MT-215](https://linear.app/menhir-holdings/issue/MT-215) — Font + full-bleed page fit, keep rectangles
+- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium palette chrome — [PR #3](https://github.com/menhir-holdings/Gamma/pull/3) (MT-215 is stacked on this branch)
 
 ## Done (palette product)
 

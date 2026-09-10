@@ -13,9 +13,7 @@
 
 ## In review
 
-- [MT-207](https://linear.app/menhir-holdings/issue/MT-207) — Gallery × cadmium chrome (Big Shoulders + Azeret Mono). No `*.vercel.app` bounce; `gammacolor.vercel.app` host redirect removed so previews stay on the preview host.
-  - PR: https://github.com/menhir-holdings/Gamma/pull/3
-  - Preview: https://gamma-git-ledoit-mt-207-gamma-palette-ch-919282-menhir-holdings.vercel.app
+- [MT-215](https://linear.app/menhir-holdings/issue/MT-215) — Full-bleed gallery wall + Newsreader/Figtree type. Named color rectangles occupy the viewport; hue ring and patterns sit in a thin rail. Branched from [MT-207](https://linear.app/menhir-holdings/issue/MT-207) so the swatch rectangles stay. No `*.vercel.app` bounce.
 
 ## Note on Linear backlog
 
