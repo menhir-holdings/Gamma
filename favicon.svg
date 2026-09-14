@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#ffffff"/>
-  <path fill="#e63e11" d="M16 4 28 27H4z"/>
-  <path fill="#ff7a3a" d="M16 4 28 27 16 22z"/>
-  <path fill="#7ec8e8" d="M16 4 4 27 16 22z"/>
+  <rect width="32" height="32" rx="7" fill="#ffffff"/>
+  <polygon points="16,6 26,12 16,18 6,12" fill="#fff6ef"/>
+  <polygon points="6,12 16,18 16,27 6,21" fill="#e44516"/>
+  <polygon points="16,18 26,12 26,21 16,27" fill="#5ebfe4"/>
+  <path d="M16 6 26 12 16 18 6 12Z M6 12 16 18 16 27 6 21Z M16 18 26 12 26 21 16 27Z" fill="none" stroke="#ffffff" stroke-width="0.7" stroke-linejoin="round"/>
 </svg>
