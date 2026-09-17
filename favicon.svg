@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Circle-of-fifths hue ring — palettes sit on this wheel in the app. -->
-  <rect width="32" height="32" rx="7" fill="#ffffff"/>
+  <!-- Circle-of-fifths hue ring — palettes sit on this wheel in the app. No white pad. -->
   <path fill="#e42525" d="M 16.15 3.70 A 12.3 12.3 0 0 1 22.02 5.27 L 18.94 10.77 A 6.0 6.0 0 0 0 16.07 10.00 Z"/>
   <path fill="#e48525" d="M 22.28 5.42 A 12.3 12.3 0 0 1 26.58 9.72 L 21.16 12.94 A 6.0 6.0 0 0 0 19.06 10.84 Z"/>
   <path fill="#e4e425" d="M 26.73 9.98 A 12.3 12.3 0 0 1 28.30 15.85 L 22.00 15.93 A 6.0 6.0 0 0 0 21.23 13.06 Z"/>
